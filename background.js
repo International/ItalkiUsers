@@ -47,23 +47,25 @@
       }
       online_users = online_users.join(",");
       notif = show_notification(null, "Online users", online_users);
-      return setTimeout((function() {
+      setTimeout((function() {
         return notif.cancel();
       }), millis_to_persist_notifications);
+      return setTimeout(check_italki_users, default_check_interval);
     });
   };
 
   failure = function() {
     var notif;
     notif = show_notification(null, ":(", "No users online");
-    return setTimeout((function() {
+    setTimeout((function() {
       return notif.cancel();
     }), millis_to_persist_notifications);
+    return setTimeout(check_italki_users, default_check_interval);
   };
 
   check_italki_users = function() {
-    $.when(get_italki_online_users()).then(success, failure);
-    return setTimeout(check_italki_users, default_check_interval);
+    console.log("Checking at:" + (new Date().toString()));
+    return $.when(get_italki_online_users()).then(success, failure);
   };
 
   check_italki_users();

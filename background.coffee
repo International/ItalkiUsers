@@ -50,15 +50,17 @@ success   = (online_users) ->
     online_users = online_users.join(",")
     notif = show_notification(null,"Online users",online_users)
     setTimeout (-> notif.cancel()), millis_to_persist_notifications
+    setTimeout(check_italki_users, default_check_interval)
 
 # this gets triggered if no users are online
 failure = ->
   notif = show_notification(null,":(","No users online")
   setTimeout (-> notif.cancel()),millis_to_persist_notifications
+  setTimeout(check_italki_users, default_check_interval)
 
 # main extension function, auto queues itself to run
 check_italki_users = ->
+  console.log "Checking at:#{new Date().toString()}"
   $.when(get_italki_online_users()).then success,failure
-  setTimeout(check_italki_users, default_check_interval)
 
 check_italki_users()
