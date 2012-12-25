@@ -23,7 +23,7 @@
   };
 
   success = function(online_users) {
-    var deferreds, dfrd, profile, profile_addresses, _i, _len;
+    var deferreds, dfrd, failed_resolve, profile, profile_addresses, succesful_resolve, _i, _len;
     profile_addresses = online_users.map(function(i, e) {
       return $(e).attr("href");
     });
@@ -38,7 +38,7 @@
       });
       deferreds.push(dfrd.promise());
     }
-    return $.when.apply(this, deferreds).done(function() {
+    succesful_resolve = function() {
       var argument, notif, _j, _len1;
       online_users = [];
       for (_j = 0, _len1 = arguments.length; _j < _len1; _j++) {
@@ -51,7 +51,16 @@
         return notif.cancel();
       }), millis_to_persist_notifications);
       return setTimeout(check_italki_users, default_check_interval);
-    });
+    };
+    failed_resolve = function() {
+      var notif;
+      notif = show_notification(null, "Failed resolve", "Failed resolve");
+      setTimeout((function() {
+        return notif.cancel();
+      }), millis_to_persist_notifications);
+      return setTimeout(check_italki_users, default_check_interval);
+    };
+    return $.when.apply(this, deferreds).then(succesful_resolve, failed_resolve);
   };
 
   failure = function() {

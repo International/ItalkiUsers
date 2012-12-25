@@ -41,9 +41,7 @@ success   = (online_users) ->
       dfrd.resolve(nick)
     deferreds.push(dfrd.promise())
 
-  # upon succesful resolution of all the profiles, we show
-  # the notification of which users are currently online
-  $.when.apply(this, deferreds).done ->
+  succesful_resolve = ->
     online_users = []
     for argument in arguments
       online_users.push(argument)
@@ -51,6 +49,16 @@ success   = (online_users) ->
     notif = show_notification(null,"Online users",online_users)
     setTimeout (-> notif.cancel()), millis_to_persist_notifications
     setTimeout(check_italki_users, default_check_interval)
+
+  failed_resolve = ->
+    notif = show_notification(null,"Failed resolve","Failed resolve")
+    setTimeout (-> notif.cancel()), millis_to_persist_notifications
+    setTimeout(check_italki_users, default_check_interval)
+
+
+  # upon succesful resolution of all the profiles, we show
+  # the notification of which users are currently online
+  $.when.apply(this, deferreds).then succesful_resolve, failed_resolve
 
 # this gets triggered if no users are online
 failure = ->
