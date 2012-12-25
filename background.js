@@ -24,7 +24,6 @@
 
   success = function(online_users) {
     var deferreds, dfrd, profile, profile_addresses, _i, _len;
-    console.log(online_users);
     profile_addresses = online_users.map(function(i, e) {
       return $(e).attr("href");
     });
@@ -41,7 +40,6 @@
     }
     return $.when.apply(this, deferreds).done(function() {
       var argument, notif, _j, _len1;
-      console.log("arguments");
       online_users = [];
       for (_j = 0, _len1 = arguments.length; _j < _len1; _j++) {
         argument = arguments[_j];
