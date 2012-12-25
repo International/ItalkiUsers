@@ -9,7 +9,7 @@
 
   this.show_notification = function(icon, title, text) {
     var notif;
-    notif = webkitNotifications.createNotification("icon_16.png", "Pomodorro finished", "Congrats!");
+    notif = webkitNotifications.createNotification(icon, title, text);
     notif.show();
     return notif;
   };

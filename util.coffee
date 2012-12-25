@@ -8,7 +8,7 @@
 # @param title [String] title of the window
 # @param text  [String] message shown in the window
 @show_notification = (icon, title, text) ->
-  notif = webkitNotifications.createNotification("icon_16.png", "Pomodorro finished", "Congrats!")
+  notif = webkitNotifications.createNotification(icon, title, text)
   notif.show()
   notif
 
