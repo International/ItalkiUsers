@@ -2,7 +2,7 @@
 (function() {
   var check_italki_users, default_check_interval, failure, get_italki_online_users, millis_to_persist_notifications, seconds_to_persist_notifs, success;
 
-  seconds_to_persist_notifs = 30;
+  seconds_to_persist_notifs = 60;
 
   millis_to_persist_notifications = seconds_to_persist_notifs * 1000;
 
@@ -24,6 +24,7 @@
 
   success = function(online_users) {
     var deferreds, dfrd, failed_resolve, profile, profile_addresses, succesful_resolve, _i, _len;
+    console.log("Entered success branch");
     profile_addresses = online_users.map(function(i, e) {
       return $(e).attr("href");
     });
@@ -40,6 +41,7 @@
     }
     succesful_resolve = function() {
       var argument, notif, _j, _len1;
+      console.log("Succesful resolve");
       online_users = [];
       for (_j = 0, _len1 = arguments.length; _j < _len1; _j++) {
         argument = arguments[_j];
@@ -47,6 +49,7 @@
       }
       online_users = online_users.join(",");
       notif = show_notification(null, "Online users", online_users);
+      document.getElementById("audio_file").play();
       setTimeout((function() {
         return notif.cancel();
       }), millis_to_persist_notifications);
@@ -54,6 +57,7 @@
     };
     failed_resolve = function() {
       var notif;
+      console.log("Failed resolve");
       notif = show_notification(null, "Failed resolve", "Failed resolve");
       setTimeout((function() {
         return notif.cancel();
@@ -65,6 +69,7 @@
 
   failure = function() {
     var notif;
+    console.log("Failure branch");
     notif = show_notification(null, ":(", "No users online");
     setTimeout((function() {
       return notif.cancel();

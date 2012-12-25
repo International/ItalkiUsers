@@ -5,6 +5,7 @@
   "description": "Monitor online users",
   "permissions": [ "notifications", "http://*/*" ],
   "background": {
-    "scripts" : ["jquery-min.js","util.js","background.js"]
+    "page" : "background.html"
+    //"scripts" : ["jquery-min.js","util.js","background.js"]
   }
 }

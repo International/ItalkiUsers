@@ -1,5 +1,5 @@
 # how many seconds to wait before cancelling notifications
-seconds_to_persist_notifs       = 30
+seconds_to_persist_notifs       = 60
 
 # time in milliseconds, since JS setTimeout works with them
 millis_to_persist_notifications = seconds_to_persist_notifs * 1000
@@ -27,6 +27,7 @@ get_italki_online_users = ->
 # to parse the nicknames with subsequent ajax calls
 # @param online_users [jQuery object]
 success   = (online_users) ->
+  console.log "Entered success branch"
   # extract the urls to the profiles
   profile_addresses = online_users.map (i,e) -> $(e).attr("href")
     
@@ -42,15 +43,18 @@ success   = (online_users) ->
     deferreds.push(dfrd.promise())
 
   succesful_resolve = ->
+    console.log "Succesful resolve"
     online_users = []
     for argument in arguments
       online_users.push(argument)
     online_users = online_users.join(",")
     notif = show_notification(null,"Online users",online_users)
+    document.getElementById("audio_file").play()
     setTimeout (-> notif.cancel()), millis_to_persist_notifications
     setTimeout(check_italki_users, default_check_interval)
 
   failed_resolve = ->
+    console.log "Failed resolve"
     notif = show_notification(null,"Failed resolve","Failed resolve")
     setTimeout (-> notif.cancel()), millis_to_persist_notifications
     setTimeout(check_italki_users, default_check_interval)
@@ -62,6 +66,7 @@ success   = (online_users) ->
 
 # this gets triggered if no users are online
 failure = ->
+  console.log "Failure branch"
   notif = show_notification(null,":(","No users online")
   setTimeout (-> notif.cancel()),millis_to_persist_notifications
   setTimeout(check_italki_users, default_check_interval)
