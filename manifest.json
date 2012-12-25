@@ -3,7 +3,7 @@
   "version": "0.0.0.1",
   "manifest_version": 2,
   "description": "Monitor online users",
-  "permissions": [ "notifications", "http://www.italki.com/" ],
+  "permissions": [ "notifications", "http://*/*" ],
   "background": {
     "scripts" : ["jquery-min.js","util.js","background.js"]
   }
