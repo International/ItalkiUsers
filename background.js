@@ -67,8 +67,11 @@
           return setTimeout(italki_checker, default_check_interval);
         });
       } else {
-        return create_cancellable_notification(":(", "No online users", millis_to_persist_notifications);
+        create_cancellable_notification(":(", "No online users", millis_to_persist_notifications);
+        return setTimeout(italki_checker, default_check_interval);
       }
+    }).error(function() {
+      return setTimeout(italki_checker, default_check_interval);
     });
   };
 

@@ -47,5 +47,8 @@ italki_checker = ->
         setTimeout italki_checker, default_check_interval
     else
       create_cancellable_notification(":(","No online users",millis_to_persist_notifications)
+      setTimeout italki_checker, default_check_interval
+  .error ->
+    setTimeout italki_checker, default_check_interval
 
 italki_checker()
